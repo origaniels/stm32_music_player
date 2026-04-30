@@ -2,7 +2,7 @@ BAUDRATE=115200
 BIN=build
 SRC=src
 OBJS=$(BIN)/main.o $(BIN)/gpio.o $(BIN)/uart.o
-CFLAGS=-mcpu=cortex-m0plus
+CFLAGS=-mcpu=cortex-m0plus -O3 -ffreestanding
 LDFLAGS=-T ldscript.ld -nostdlib
 
 CC=arm-none-eabi-gcc

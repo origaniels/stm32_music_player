@@ -2,12 +2,14 @@
 #include "timer.h"
 #include <stdint.h>
 
-#define C5 1000000/523
-#define B4 1000000/493
-#define A4 1000000/440
-#define G4 1000000/392
-#define F4 1000000/349
-#define E4 1000000/329
+enum tone {
+ TONE_C5 = 1000000/523,
+ TONE_B4 = 1000000/493,
+ TONE_A4 = 1000000/440,
+ TONE_G4 = 1000000/392,
+ TONE_F4 = 1000000/349,
+ TONE_E4 = 1000000/329
+};
 
 enum duration {
   CROCHE = 400,
@@ -17,8 +19,8 @@ enum duration {
 };
 
 struct note {
-  uint16_t tone;
-  uint16_t duration_ms;
+  enum tone tone;
+  enum duration duration_ms;
 };
 
 void play_song(struct note *song, uint32_t length) {
@@ -34,30 +36,30 @@ void play_song(struct note *song, uint32_t length) {
 }
 
 struct note ieji[22] = {
-  {A4, NOIRE},
-  {C5, CROCHE},
-  {C5, NOIRE},
-  {A4, NOIRE},
-  {G4, CROCHE},
-  {F4, NOIRE},
+  {TONE_A4, NOIRE},
+  {TONE_C5, CROCHE},
+  {TONE_C5, NOIRE},
+  {TONE_A4, NOIRE},
+  {TONE_G4, CROCHE},
+  {TONE_F4, NOIRE},
 
-  {G4, NOIRE},
-  {A4, CROCHE},
-  {C5, NOIRE},
-  {A4, CROCHE},
-  {G4, NOIRE},
+  {TONE_G4, NOIRE},
+  {TONE_A4, CROCHE},
+  {TONE_C5, NOIRE},
+  {TONE_A4, CROCHE},
+  {TONE_G4, NOIRE},
 
-  {A4, NOIRE},
-  {C5, CROCHE},
-  {C5, NOIRE},
-  {A4, NOIRE},
-  {G4, CROCHE},
-  {F4, NOIRE},
+  {TONE_A4, NOIRE},
+  {TONE_C5, CROCHE},
+  {TONE_C5, NOIRE},
+  {TONE_A4, NOIRE},
+  {TONE_G4, CROCHE},
+  {TONE_F4, NOIRE},
 
-  {G4, CROCHE_POINTEE},
-  {A4, CROCHE_POINTEE},
-  {G4, NOIRE},
-  {F4, CROCHE},
-  {F4, BLANCHE},
+  {TONE_G4, CROCHE_POINTEE},
+  {TONE_A4, CROCHE_POINTEE},
+  {TONE_G4, NOIRE},
+  {TONE_F4, CROCHE},
+  {TONE_F4, BLANCHE},
 };
 
