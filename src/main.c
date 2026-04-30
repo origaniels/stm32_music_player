@@ -2,6 +2,7 @@
 #include "gpio.h"
 #include "clock.h"
 #include "uart.h"
+#include "timer.h"
 
 
 int main() {
@@ -9,12 +10,15 @@ int main() {
 
   bool out = true;
 
+  setup_timer1_pwm();
   struct pin pin = (struct pin){BANKA, 5};
-  gpio_set_mode(pin, GPIO_MODE_OUTPUT);
+  struct pin pin_debug = (struct pin){BANKA, 6};
+  gpio_set_mode(pin, GPIO_MODE_AF);
+  gpio_set_mode(pin_debug, GPIO_MODE_OUTPUT);
+  gpio_set_af(pin, 5);
   for (;;) {
-    gpio_write(pin, out);
+    gpio_write(pin_debug, out);
     out = !out;
-    uart_write_buf(USART2, "Hello\n\r", 7);
 
     delay(1000);
   }

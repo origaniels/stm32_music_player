@@ -3,7 +3,7 @@
 
 struct rcc {
   volatile uint32_t CR;
-  volatile uint32_t ICSCR; 
+  volatile uint32_t ICSCR;
   volatile uint32_t CFGR;
   volatile uint32_t RESERVED1[2];
   volatile uint32_t CRRCR;
