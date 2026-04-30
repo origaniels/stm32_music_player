@@ -1,6 +1,9 @@
+#pragma once
 #include <inttypes.h>
+#include <stdint.h>
 #include "register.h"
 #include "rcc.h"
+#include "clock.h"
 
 #define TIM1_BASE_ADDR 0x40012C00
 
@@ -35,11 +38,14 @@ struct adv_control_timer {
   volatile uint32_t TISEL;
 };
 
-void setup_timer1_pwm() {
+#define BASE_PERIOD CLOCKS_PER_MICROSECONDS
+
+void setup_timer1_pwm(uint16_t period_mus) {
   SET_BIT(RCC->APBENR2, 11);
-  tim1->PSC = 5000;
-  tim1->ARR = 10;
-  tim1->CCR1 = 1;
+  /* Set prescaling factor to about 1 microsecond */
+  tim1->PSC = BASE_PERIOD;
+  tim1->ARR = period_mus;
+  tim1->CCR1 = 20;
   CLR_BIT(tim1->CCMR1, 16);
   SET_BIT(tim1->CCMR1, 6);
   SET_BIT(tim1->CCMR1, 5);
@@ -53,3 +59,22 @@ void setup_timer1_pwm() {
   SET_BIT(tim1->EGR, 0);
 }
 
+void set_tim1_pwm_freq(uint16_t period_mus) {
+  tim1->ARR = period_mus;
+  SET_BIT(tim1->EGR, 0);
+}
+
+void set_tim1_pwm_ccr1(uint16_t crr1) {
+  tim1->CCR1 = crr1;
+  SET_BIT(tim1->EGR, 0);
+}
+
+void set_tim1_pwm_off() {
+  CLR_BIT(tim1->CR1, 0);
+  SET_BIT(tim1->EGR, 0);
+}
+
+void set_tim1_pwm_on() {
+  SET_BIT(tim1->CR1, 0);
+  SET_BIT(tim1->EGR, 0);
+}

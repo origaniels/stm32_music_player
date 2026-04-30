@@ -3,25 +3,26 @@
 #include "clock.h"
 #include "uart.h"
 #include "timer.h"
-
+#include "music.h"
 
 int main() {
   systick_init();
 
   bool out = true;
 
-  setup_timer1_pwm();
+  setup_timer1_pwm(2272);
+  set_tim1_pwm_off();
   struct pin pin = (struct pin){BANKA, 5};
   struct pin pin_debug = (struct pin){BANKA, 6};
   gpio_set_mode(pin, GPIO_MODE_AF);
   gpio_set_mode(pin_debug, GPIO_MODE_OUTPUT);
   gpio_set_af(pin, 5);
-  for (;;) {
-    gpio_write(pin_debug, out);
-    out = !out;
 
-    delay(1000);
+  while (1) {
+    play_song(ieji, 22);
+    delay(4000);
   }
+
   return 0;
 }
 

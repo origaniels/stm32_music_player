@@ -1,3 +1,4 @@
+#pragma once
 #include <inttypes.h>
 #include "register.h"
 
@@ -11,6 +12,8 @@ struct systick {
 #define SYSTICK ((struct systick *) 0xe000e010)
 
 #define CLOCKS_PER_SECONDS 12000000
+#define CLOCKS_PER_MILLISECONDS CLOCKS_PER_SECONDS / 1000
+#define CLOCKS_PER_MICROSECONDS CLOCKS_PER_MILLISECONDS / 1000
 #define TICK_INTERVAL CLOCKS_PER_SECONDS/1000
 #define TICKS_PER_MILLISECONDS 1
 
@@ -37,3 +40,4 @@ static inline void delay(uint32_t ms) {
     while (final_ticks > ticks) (void)final_ticks;
     return;
 }
+
