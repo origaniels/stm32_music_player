@@ -18,9 +18,17 @@ int main() {
   gpio_set_mode(pin, GPIO_MODE_AF);
   gpio_set_mode(pin_debug, GPIO_MODE_OUTPUT);
   gpio_set_af(pin, 5);
+  for (int i = 0; i<5; i++){
+    /* Debug clock frequency with led */
+    gpio_write(pin_debug, out);
+    out = !out;
+    delay(500);
+  }
 
   while (1) {
-    play_song(ieji, 22);
+    gpio_write(pin_debug, 0);
+    play_song_cords(ieji_cords, 22);
+    gpio_write(pin_debug, 1);
     delay(4000);
   }
 
