@@ -1,5 +1,6 @@
 #pragma once
 #include <inttypes.h>
+#include "rcc.h"
 #include "register.h"
 
 struct systick {
@@ -11,14 +12,24 @@ struct systick {
 
 #define SYSTICK ((struct systick *) 0xe000e010)
 
-#define CLOCKS_PER_SECONDS 12000000
+#define CLOCKS_PER_SECONDS 48000000
 #define CLOCKS_PER_MILLISECONDS CLOCKS_PER_SECONDS / 1000
 #define CLOCKS_PER_MICROSECONDS CLOCKS_PER_MILLISECONDS / 1000
-#define TICK_INTERVAL CLOCKS_PER_SECONDS/1000
-#define TICKS_PER_MILLISECONDS 1
+
+#define SYSTICK_PERIOD_MICROSECONDS 1
+
+#define TICK_INTERVAL CLOCKS_PER_MICROSECONDS * SYSTICK_PERIOD_MICROSECONDS
+
+#define TICKS_PER_MILLISECONDS 1000 / SYSTICK_PERIOD_MICROSECONDS
 
 volatile uint32_t ticks = 0;
 
+void sysclock_init() {
+  /* set HSISYS division factor to 1*/
+  CLR_BIT(RCC->CR, 11);
+  CLR_BIT(RCC->CR, 12);
+  CLR_BIT(RCC->CR, 13);
+}
 
 void systick_init() {
     SET_BIT(SYSTICK->CTRL, 0);
@@ -26,9 +37,11 @@ void systick_init() {
     SET_BIT(SYSTICK->CTRL, 2);
     SYSTICK->LOAD = TICK_INTERVAL;
     SYSTICK->VAL = 0;
-    RCC->APBENR2 = BIT(0);
 }
 
+volatile uint32_t systick_ticks() {
+  return ticks;
+}
 
 void Systick_handler() {
     ticks++;

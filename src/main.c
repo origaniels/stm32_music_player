@@ -6,11 +6,12 @@
 #include "music.h"
 
 int main() {
+  sysclock_init();
   systick_init();
 
   bool out = true;
 
-  setup_timer1_pwm(2272);
+  setup_timer1_pwm(TONE_A5);
   set_tim1_pwm_off();
   struct pin pin = (struct pin){BANKA, 5};
   struct pin pin_debug = (struct pin){BANKA, 6};
