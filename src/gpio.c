@@ -14,9 +14,28 @@ struct gpio *const banks[6] = {
 
 
 void gpio_set_mode(struct pin pin, uint8_t mode) {
-    SET_BIT(RCC->IOPENR, pin.bank);
-    banks[pin.bank]->MODER &= ~(3U << (pin.id * 2));
-    banks[pin.bank]->MODER |= (mode & 3) << (pin.id * 2);
+  switch (pin.bank) {
+  case BANKA:
+    RCC->IOPENR.GPIOAEN = 1;
+    break;
+  case BANKB:
+    RCC->IOPENR.GPIOBEN = 1;
+    break;
+  case BANKC:
+    RCC->IOPENR.GPIOCEN = 1;
+    break;
+  case BANKD:
+    RCC->IOPENR.GPIODEN = 1;
+    break;
+  case BANKF:
+    RCC->IOPENR.GPIOFEN = 1;
+    break;
+  default:
+    break;
+  }
+
+  banks[pin.bank]->MODER &= ~(3U << (pin.id * 2));
+  banks[pin.bank]->MODER |= (mode & 3) << (pin.id * 2);
 }
 
 void gpio_write(struct pin pin, bool val) {

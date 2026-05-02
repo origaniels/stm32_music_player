@@ -4,13 +4,13 @@ void uart_init(struct uart *uart) {
   uint8_t af = 1;
   struct pin rx, tx;
 
-  if (uart == USART1) SET_BIT(RCC->APBENR2, 14);
-  if (uart == USART2) SET_BIT(RCC->APBENR1, 17);
-  if (uart == USART3) SET_BIT(RCC->APBENR1, 18);
+  if (uart == USART1) RCC->APBENR2.USART1EN = 1;
+  if (uart == USART2) RCC->APBENR1.USART2EN = 1;
+  if (uart == USART3) RCC->APBENR1.USART3EN = 1;
 
-	if (uart == USART1) CLR_BIT(RCC->APBRSTR2, 14);
-  if (uart == USART2) CLR_BIT(RCC->APBRSTR1, 17);
-  if (uart == USART3) CLR_BIT(RCC->APBRSTR1, 18);
+	if (uart == USART1) RCC->APBRSTR2.USART1RST = 1;
+  if (uart == USART2) RCC->APBRSTR1.USART2RST = 1;
+  if (uart == USART3) RCC->APBRSTR1.USART3RST = 1;
 
   if (uart == USART1) tx = (struct pin){BANKA, 2}, rx = (struct pin){BANKA, 3};
   if (uart == USART3) tx = (struct pin){BANKA, 2}, rx = (struct pin){BANKA, 3};

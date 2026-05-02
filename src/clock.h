@@ -26,9 +26,7 @@ volatile uint32_t ticks = 0;
 
 void sysclock_init() {
   /* set HSISYS division factor to 1*/
-  CLR_BIT(RCC->CR, 11);
-  CLR_BIT(RCC->CR, 12);
-  CLR_BIT(RCC->CR, 13);
+  RCC->CR.HSIDIV = 0;
 }
 
 void systick_init() {

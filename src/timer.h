@@ -42,7 +42,7 @@ struct adv_control_timer {
 #define BASE_CCR1 40
 
 void setup_timer1_pwm(uint16_t period_mus) {
-  SET_BIT(RCC->APBENR2, 11);
+  RCC->APBENR2.TIM1EN = 1;
   /* Set prescaling factor to about 1 microsecond */
   tim1->PSC = BASE_PERIOD;
   tim1->ARR = period_mus;
