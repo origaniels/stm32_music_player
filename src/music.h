@@ -66,7 +66,7 @@ void play_song(struct note *song, uint32_t length) {
     delay(song[i].duration_ms);
     set_tim1_pwm_ccr1(0);
     delay(1);
-    set_tim1_pwm_ccr1(10);
+    set_tim1_pwm_ccr1(BASE_CCR1);
   }
   set_tim1_pwm_off();
 }

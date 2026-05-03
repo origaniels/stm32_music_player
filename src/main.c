@@ -12,6 +12,7 @@ int main() {
   bool out = true;
 
   setup_timer1_pwm(TONE_A5);
+    delay(5000);
   set_tim1_pwm_off();
   struct pin pin = (struct pin){BANKA, 5};
   struct pin pin_debug = (struct pin){BANKA, 6};
